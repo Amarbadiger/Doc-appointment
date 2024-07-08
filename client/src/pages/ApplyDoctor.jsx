@@ -44,8 +44,8 @@ const ApplyDoctor = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen flex items-center justify-center py-5 sm:px-6 lg:px-8">
-        <div className="max-w-5xl w-full bg-white p-8 shadow-lg rounded-lg">
+      <div className="min-h-screen flex items-center justify-center py-5 sm:px-6 lg:px-8 ">
+        <div className="max-w-5xl w-full bg-white p-8 shadow-lg rounded-lg ">
           <h1 className="text-3xl font-semibold mb-6 text-center text-black">
             Apply as a Doctor
           </h1>

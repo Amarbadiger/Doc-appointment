@@ -72,8 +72,14 @@ const Layout = ({ children }) => {
               </span>
             </div>
             <div>
-              <Badge count={user && user.notification.length}>
-                <i className="fa-solid fa-bell m-4 text-2xl hover:text-violet-800 transition duration-300 cursor-pointer"></i>
+              <Badge
+                count={user && user.notification.length}
+                className="m-3"
+                onClick={() => {
+                  navigate("/notification");
+                }}
+              >
+                <i className="fa-solid fa-bell text-white text-2xl hover:text-violet-800 transition duration-300 cursor-pointer"></i>
               </Badge>
 
               <Link
@@ -111,7 +117,7 @@ const Layout = ({ children }) => {
           </div>
         )}
         {/* Main content area */}
-        <div className="flex-1 text-white">{children}</div>
+        <div className="min-h-screen">{children}</div>
       </div>
     </div>
   );
