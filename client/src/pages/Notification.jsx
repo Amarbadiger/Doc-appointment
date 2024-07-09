@@ -65,44 +65,46 @@ const Notification = () => {
 
   return (
     <Layout>
-      <h4 className="p-3 text-center">Notification Page</h4>
-      <Tabs>
-        <Tabs.TabPane tab="Unread" key={0}>
-          <div className="flex justify-end">
-            <h4 className="p-2 cursor-pointer" onClick={handleMarkAllRead}>
-              Mark All Read
-            </h4>
-          </div>
-          {user?.notification.map((notificationMgs, index) => (
-            <div
-              key={index}
-              className="card cursor-pointer mb-2"
-              onClick={() => navigate(notificationMgs.onClickPath)}
-            >
-              <div className="card-text p-2">{notificationMgs.message}</div>
+      <div className="bg-white text-gray-800 p-8 rounded-lg shadow-lg w-full min-h-screen border border-blue-500">
+        <h4 className="p-3 text-center">Notification Page</h4>
+        <Tabs>
+          <Tabs.TabPane tab="Unread" key={0}>
+            <div className="flex justify-end">
+              <h4 className="p-2 cursor-pointer" onClick={handleMarkAllRead}>
+                Mark All Read
+              </h4>
             </div>
-          ))}
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Read" key={1}>
-          <div className="flex justify-end">
-            <h4
-              className="p-2 text-primary cursor-pointer"
-              onClick={handleDeleteAllRead}
-            >
-              Delete All Read
-            </h4>
-          </div>
-          {user?.seenNotification.map((notificationMgs, index) => (
-            <div
-              key={index}
-              className="card cursor-pointer mb-2"
-              onClick={() => navigate(notificationMgs.onClickPath)}
-            >
-              <div className="card-text p-2">{notificationMgs.message}</div>
+            {user?.notification.map((notificationMgs, index) => (
+              <div
+                key={index}
+                className="card cursor-pointer mb-2"
+                onClick={() => navigate(notificationMgs.onClickPath)}
+              >
+                <div className="card-text p-2">{notificationMgs.message}</div>
+              </div>
+            ))}
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Read" key={1}>
+            <div className="flex justify-end">
+              <h4
+                className="p-2 text-primary cursor-pointer"
+                onClick={handleDeleteAllRead}
+              >
+                Delete All Read
+              </h4>
             </div>
-          ))}
-        </Tabs.TabPane>
-      </Tabs>
+            {user?.seenNotification.map((notificationMgs, index) => (
+              <div
+                key={index}
+                className="card cursor-pointer mb-2"
+                onClick={() => navigate(notificationMgs.onClickPath)}
+              >
+                <div className="card-text p-2">{notificationMgs.message}</div>
+              </div>
+            ))}
+          </Tabs.TabPane>
+        </Tabs>
+      </div>
     </Layout>
   );
 };
