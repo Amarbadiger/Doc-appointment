@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import axios from "axios";
-import { Table } from "antd";
+import { message, Table } from "antd";
 
 const GetDoctors = () => {
   const [doctors, setDoctors] = useState([]);
@@ -26,6 +26,27 @@ const GetDoctors = () => {
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  //Handle Click on Button
+  const handleAccountStatus = async (record, status) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/admin/approveDoctor",
+        { doctorId: record._id, userId: record.userId, status: status },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (res.data.success) {
+        message.success(res.data.message);
+        window.location.reload();
+      }
+    } catch (error) {
+      message.error("Something Went Wrong");
     }
   };
 
@@ -59,7 +80,7 @@ const GetDoctors = () => {
           {record.status === "pending" ? (
             <button
               className="bg-green-500 text-white py-2 px-4 rounded mr-2 hover:bg-green-600 transition duration-300"
-              onClick={() => handleAccountStatus(record, "approved")}
+              onClick={() => handleAccountStatus(record, "Apporoved")}
             >
               Approve
             </button>
