@@ -18,14 +18,17 @@ const GetDoctors = () => {
       );
       if (res.data.success) {
         // Add a unique key to each doctor
-        const doctorsWithKeys = res.data.data.map((doctor, index) => ({
-          ...doctor,
-          key: doctor._id || index, // Using _id or index as key
-        }));
+        const doctorsWithKeys = Array.isArray(res.data.data)
+          ? res.data.data.map((doctor, index) => ({
+              ...doctor,
+              key: doctor._id || index, // Using _id or index as key
+            }))
+          : [];
         setDoctors(doctorsWithKeys);
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching doctors data:", error);
+      message.error("Failed to fetch doctors data");
     }
   };
 
@@ -34,7 +37,7 @@ const GetDoctors = () => {
     try {
       const res = await axios.post(
         "http://localhost:8000/api/v1/admin/approveDoctor",
-        { doctorId: record._id, userId: record.userId, status: status },
+        { doctorId: record._id, status: status },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -43,10 +46,11 @@ const GetDoctors = () => {
       );
       if (res.data.success) {
         message.success(res.data.message);
-        window.location.reload();
+        getallDoctors(); // Reload the doctors list instead of refreshing the whole page
       }
     } catch (error) {
-      message.error("Something Went Wrong");
+      console.log("Error updating account status:", error);
+      message.error("Something went wrong");
     }
   };
 
@@ -69,7 +73,7 @@ const GetDoctors = () => {
       dataIndex: "status",
     },
     {
-      title: "phoneNumber",
+      title: "Phone Number",
       dataIndex: "phoneNumber",
     },
     {
@@ -80,12 +84,15 @@ const GetDoctors = () => {
           {record.status === "pending" ? (
             <button
               className="bg-green-500 text-white py-2 px-4 rounded mr-2 hover:bg-green-600 transition duration-300"
-              onClick={() => handleAccountStatus(record, "Apporoved")}
+              onClick={() => handleAccountStatus(record, "approved")}
             >
               Approve
             </button>
           ) : (
-            <button className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-300">
+            <button
+              className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-300"
+              onClick={() => handleAccountStatus(record, "rejected")}
+            >
               Reject
             </button>
           )}

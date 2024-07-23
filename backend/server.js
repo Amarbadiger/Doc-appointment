@@ -5,30 +5,33 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
-//dotenv config
+// dotenv config
 dotenv.config();
 
-//mongodb connection
+// mongodb connection
 connectDB();
 
-//rest object
+// rest object
 const app = express();
-//for both port running
+// for both port running
 app.use(cors());
-//middlewares
+// middlewares
 app.use(express.json());
 app.use(morgan("dev"));
 
-//routes
+// routes
 app.use("/api/v1/user", require("./routes/userRoute"));
 // Admin Routes
 app.use("/api/v1/admin", require("./routes/AdminRoute"));
-//port
+// Doctor Routes
+app.use("/api/v1/doctor", require("./routes/doctorRoute"));
+
+// port
 const port = process.env.PORT || 8080;
-//listen port
+// listen port
 app.listen(port, () => {
   console.log(
-    `server running is running  ${process.env.NODE_MODE} mode on port ${process.env.PORT}`
-      .bgCyan.white
+    `server running in ${process.env.NODE_MODE} mode on port ${port}`.bgCyan
+      .white
   );
 });

@@ -7,14 +7,35 @@ import { Badge, message } from "antd";
 
 const Layout = ({ children }) => {
   const { user } = useSelector((state) => state.user);
+
+  //============= Doctor Menu=============
+  const doctorMenu = [
+    {
+      name: "Home",
+      path: "/",
+      icon: "fa-solid fa-house",
+    },
+    {
+      name: "Appointments",
+      path: "/appointments",
+      icon: "fa-solid fa-list",
+    },
+    {
+      name: "Profile",
+      path: `/doctor/profile/${user?._id}`,
+      icon: "fa-solid fa-user",
+    },
+  ];
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [navigationMenu, setNavigationMenu] = useState(
-    user?.isAdmin ? AdminMenu : userMenu
+    user?.isAdmin ? AdminMenu : user?.isDoctor ? doctorMenu : userMenu
   );
 
   useEffect(() => {
-    // Update the navigation menu if user changes
-    setNavigationMenu(user?.isAdmin ? AdminMenu : userMenu);
+    setNavigationMenu(
+      user?.isAdmin ? AdminMenu : user?.isDoctor ? doctorMenu : userMenu
+    );
   }, [user]);
 
   const toggleMobileMenu = () => {
@@ -73,7 +94,7 @@ const Layout = ({ children }) => {
             </div>
             <div>
               <Badge
-                count={user && user.notification.length}
+                count={user?.notification.length}
                 className="m-3"
                 onClick={() => {
                   navigate("/notification");
@@ -111,7 +132,10 @@ const Layout = ({ children }) => {
             >
               <i className="fa-solid fa-right-from-bracket mr-2"></i> Logout
             </div>
-            <div className="block py-2 px-4 text-lg text-gray-800">
+            <div
+              className="block py-2 px-4 no-underline text-lg text-gray-800 hover:bg-gray-100 transition duration-300 cursor-pointer"
+              onClick={() => navigate("/notification")}
+            >
               <i className="fa-solid fa-bell mr-2"></i> Notifications
             </div>
           </div>

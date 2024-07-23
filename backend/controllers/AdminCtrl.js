@@ -38,20 +38,53 @@ const getAllDoctorsController = async (req, res) => {
   }
 };
 
-// Approve Doctor controller
+// approve Doctor
 const approveDoctorController = async (req, res) => {
   try {
     const { doctorId, status } = req.body;
-    const doctor = await doctorModel.findByIdAndUpdate(doctorId, { status });
-    const user = await userModel.findOne({ _id: doctor.userId });
-    const notification = user.notification;
-    notification.push({
+
+    // Validate doctorId and status
+    if (!doctorId || !["approved", "rejected"].includes(status)) {
+      return res.status(400).send({
+        message: "Invalid doctorId or status",
+        success: false,
+      });
+    }
+
+    // Find and update the doctor
+    const doctor = await doctorModel.findByIdAndUpdate(
+      doctorId,
+      { status },
+      { new: true }
+    );
+    if (!doctor) {
+      return res.status(404).send({
+        message: "Doctor not found",
+        success: false,
+      });
+    }
+
+    // Find the associated user
+    const user = await userModel.findById(doctor.userId);
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found",
+        success: false,
+      });
+    }
+
+    // Update user notifications
+    user.notification.push({
       type: "doctor-account-request-updated",
-      message: `your Doctor Account Request Has ${status}`,
+      message: `Your Doctor Account Request Has Been ${status}`,
       onclickPath: "/notification",
     });
-    user.isDoctor = status === "approved" ? true : false;
+
+    // Update user isDoctor status
+    user.isDoctor = status === "approved";
     await user.save();
+
+    // Respond with success
     res.status(201).send({
       success: true,
       message: "Account Status Updated",
