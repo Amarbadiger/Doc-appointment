@@ -32,9 +32,10 @@ const GetDoctors = () => {
     }
   };
 
-  //Handle Click on Button
+  // Handle Click on Button
   const handleAccountStatus = async (record, status) => {
     try {
+      console.log("Updating status for:", record._id, "to:", status);
       const res = await axios.post(
         "http://localhost:8000/api/v1/admin/approveDoctor",
         { doctorId: record._id, status: status },
@@ -47,6 +48,8 @@ const GetDoctors = () => {
       if (res.data.success) {
         message.success(res.data.message);
         getallDoctors(); // Reload the doctors list instead of refreshing the whole page
+      } else {
+        message.error("Failed to update status");
       }
     } catch (error) {
       console.log("Error updating account status:", error);
@@ -91,7 +94,7 @@ const GetDoctors = () => {
           ) : (
             <button
               className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-300"
-              onClick={() => handleAccountStatus(record, "rejected")}
+              onClick={() => handleAccountStatus(record, "pending")}
             >
               Reject
             </button>

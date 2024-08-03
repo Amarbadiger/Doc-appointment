@@ -261,7 +261,7 @@ const bookingAvailabilityController = async (req, res) => {
     if (appointments.length > 0) {
       return res.status(200).send({
         message: "Appointments not available at this time",
-        success: false, // Set success to false as appointments are not available
+        success: true,
       });
     } else {
       return res.status(200).send({

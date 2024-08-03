@@ -35,33 +35,6 @@ const Booking = () => {
     }
   };
 
-  const handleAvailability = async () => {
-    try {
-      dispatch(showLoading());
-      const res = await axios.post(
-        "http://localhost:8000/api/v1/user/booking-availbility",
-        { doctorId: params.doctorId, date, time },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      console.log("this is time", time, "this is data", date);
-      dispatch(hideLoading());
-      if (res.data.success) {
-        setIsAvailable(true);
-        message.success(res.data.message);
-      } else {
-        setIsAvailable(false);
-        message.error(res.data.message);
-      }
-    } catch (error) {
-      dispatch(hideLoading());
-      console.log(error);
-    }
-  };
-
   const handleBooking = async () => {
     try {
       if (!date || !time) {
@@ -94,6 +67,33 @@ const Booking = () => {
     }
   };
 
+  const handleAvailability = async () => {
+    try {
+      dispatch(showLoading());
+      const res = await axios.post(
+        "http://localhost:8000/api/v1/user/booking-availbility",
+        { doctorId: params.doctorId, date, time },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log("this is time", time, "this is data", date);
+      dispatch(hideLoading());
+      if (res.data.success) {
+        setIsAvailable(true);
+        message.success(res.data.message);
+      } else {
+        setIsAvailable(false);
+        message.error(res.data.message);
+      }
+    } catch (error) {
+      dispatch(hideLoading());
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getUserData();
   }, []);
@@ -112,7 +112,7 @@ const Booking = () => {
                 Fees: {doctors.feesPerConsultation}
               </p>
               <p className="text-gray-700">
-                Timings:{" "}
+                Timings:
                 {doctors.timings && doctors.timings.length === 2
                   ? `${moment(doctors.timings[0]).format("hh:mm A")} - ${moment(
                       doctors.timings[1]
@@ -121,15 +121,13 @@ const Booking = () => {
               </p>
               <div className="flex flex-col mt-4">
                 <DatePicker
-                  aria-required="true"
                   className="m-2"
                   format="DD-MM-YYYY"
                   onChange={(value) => {
-                    setDate(moment(value).format("YYYY-MM-DD"));
+                    setDate(moment(value).format("DD-MM-YYYY"));
                   }}
                 />
                 <TimePicker
-                  aria-required="true"
                   format="HH:mm"
                   className="mt-3"
                   onChange={(value) => {

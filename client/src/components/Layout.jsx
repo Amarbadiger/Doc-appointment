@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
     },
     {
       name: "Appointments",
-      path: "/appointments",
+      path: "/doctor/appoinments",
       icon: "fa-solid fa-list",
     },
     {
@@ -105,7 +105,7 @@ const Layout = ({ children }) => {
 
               <Link
                 className="capitalize no-underline text-xl text-white hover:text-violet-800 transition duration-300 ml-2 shadow-md p-2"
-                to="/profile"
+                to="/user/profile"
               >
                 {user?.name}
               </Link>

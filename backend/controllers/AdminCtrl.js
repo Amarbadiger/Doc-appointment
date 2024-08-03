@@ -44,7 +44,7 @@ const approveDoctorController = async (req, res) => {
     const { doctorId, status } = req.body;
 
     // Validate doctorId and status
-    if (!doctorId || !["approved", "rejected"].includes(status)) {
+    if (!doctorId || !["approved", "pending"].includes(status)) {
       return res.status(400).send({
         message: "Invalid doctorId or status",
         success: false,
