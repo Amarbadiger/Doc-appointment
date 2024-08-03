@@ -151,7 +151,7 @@ const HeroPage = () => {
             </div>
 
             {/* Quick Links */}
-            <div className="w-full md:w-1/4 flex flex-col items-center md:items-start ">
+            <div className="w-full md:w-1/4 flex flex-col items-center md:items-start">
               <h4 className="text-lg font-semibold mb-2">Quick Links</h4>
               <ul className="space-y-2">
                 <li>
@@ -189,7 +189,7 @@ const HeroPage = () => {
                 <li>
                   <a href="mailto:zeelab@gmail.com">zeelab@gmail.com</a>
                 </li>
-                <li>Karachi, Pakistan</li>
+                <li>Gandi nagar Belgaum</li>
               </ul>
             </div>
           </div>
