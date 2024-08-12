@@ -5,6 +5,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import logo from "../assets/images/logo.png";
+
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -104,6 +105,14 @@ const Login = () => {
             Not registered yet?{" "}
             <Link to="/register" className="text-blue-500 hover:underline">
               Register now
+            </Link>
+          </p>
+          <p className="text-center mt-2">
+            <Link
+              to="/forgot-password"
+              className="text-blue-500 hover:underline"
+            >
+              Forgot Password?
             </Link>
           </p>
         </div>

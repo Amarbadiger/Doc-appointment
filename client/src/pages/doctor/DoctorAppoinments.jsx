@@ -7,6 +7,7 @@ import { message, Table } from "antd";
 const DoctorAppointments = () => {
   const [appointments, setAppointments] = useState([]);
 
+  // Function to fetch appointments
   const getAppointments = async () => {
     try {
       const res = await axios.get(
@@ -56,13 +57,15 @@ const DoctorAppointments = () => {
       dataIndex: "_id",
     },
     {
+      title: "Patient Name",
+      dataIndex: "userId",
+      render: (user) => user.name, // Render the name of the patient
+    },
+    {
       title: "Date & Time",
       dataIndex: "date",
       render: (text, record) => (
-        <span>
-          {moment(record.date).format("DD-MM-YYYY")} &nbsp;
-          {moment(record.time).format("HH:mm")}
-        </span>
+        <span>{moment(record.date).format("DD-MM-YYYY")} &nbsp;</span>
       ),
     },
     {
@@ -105,7 +108,10 @@ const DoctorAppointments = () => {
           <div className="overflow-x-auto">
             <Table
               columns={columns}
-              dataSource={appointments}
+              dataSource={appointments.map((appointment) => ({
+                ...appointment,
+                key: appointment._id, // Use a unique identifier from your data as the key
+              }))}
               pagination={false}
             />
           </div>

@@ -1,11 +1,71 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { message } from "antd";
 import HeroImg from "../assets/images/hero.png";
 import logo from "../assets/images/logo.png";
 import about from "../assets/images/about.png";
 import "../styles/HeroPage.css";
 
 const HeroPage = () => {
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Email validation regex to check for @gmail.com domain
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    // Phone number validation regex (Indian format example)
+    const phoneRegex = /^[6-9]\d{9}$/;
+
+    if (!emailRegex.test(formData.email)) {
+      message.error(
+        "Please enter a valid Gmail address (e.g., example@gmail.com)"
+      );
+      return;
+    }
+
+    if (!phoneRegex.test(formData.phone)) {
+      message.error("Please enter a valid 10-digit phone number");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/hero/contact-form",
+        formData
+      );
+      console.log(response.data);
+      message.success(
+        "The data is sent to admin. We will reach out to you soon."
+      );
+      setFormData({
+        firstname: "",
+        lastname: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error(error);
+      message.error("An error occurred. Please try again later.");
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-400 to-purple-500 p-4 md:p-10">
       {/* Navigation */}
@@ -90,44 +150,63 @@ const HeroPage = () => {
       {/* Contact Form */}
       <div className="bg-white text-gray-800 rounded-lg px-4 md:px-6 py-8 md:py-12 shadow-md mb-10 mt-10">
         <h2 className="text-xl md:text-2xl font-semibold mb-6">Contact Us</h2>
-        <form className="space-y-4">
-          <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+        <form className="space-y-4 text-black" onSubmit={handleSubmit}>
+          <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 text-white">
             <input
               type="text"
+              name="firstname"
               placeholder="First Name"
-              className="w-full md:w-1/2 p-2 border rounded-lg"
+              className="w-full md:w-1/2 p-2 border rounded-lg text-black"
+              value={formData.firstname}
+              onChange={handleChange}
+              required
             />
             <input
               type="text"
+              name="lastname"
               placeholder="Last Name"
-              className="w-full md:w-1/2 p-2 border rounded-lg"
+              className="w-full md:w-1/2 p-2 border rounded-lg text-black"
+              value={formData.lastname}
+              onChange={handleChange}
+              required
             />
           </div>
           <input
             type="email"
+            name="email"
             placeholder="Email"
-            className="w-full p-2 border rounded-lg"
+            className="w-full p-2 border rounded-lg text-black"
+            value={formData.email}
+            onChange={handleChange}
+            required
           />
           <input
             type="text"
+            name="phone"
             placeholder="Phone Number"
-            className="w-full p-2 border rounded-lg"
+            className="w-full p-2 border rounded-lg text-black"
+            value={formData.phone}
+            onChange={handleChange}
+            required
           />
           <textarea
+            name="message"
             placeholder="Message"
-            className="w-full p-2 border rounded-lg"
+            className="w-full p-2 border rounded-lg text-black"
             rows="4"
-          ></textarea>
+            value={formData.message}
+            onChange={handleChange}
+            required
+          />
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
           >
-            Send Message
+            Send
           </button>
         </form>
       </div>
 
-      {/* Footer */}
       <footer className="bg-white text-gray-800 p-6">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-start md:items-center space-y-6 md:space-y-0">
           {/* Logo */}

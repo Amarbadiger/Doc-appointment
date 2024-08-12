@@ -5,37 +5,30 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import logo from "../assets/images/logo.png";
+
 const Register = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const onFinishHandler = async (values) => {
     setLoading(true); // Start loading animation
     try {
       dispatch(showLoading());
-      // Send a POST request to the backend API endpoint for user registration
       const res = await axios.post(
         "http://localhost:8000/api/v1/user/register",
         values
       );
       dispatch(hideLoading());
-      // Check if registration was successful based on response data
       if (res.data.success) {
-        // Display a success message to the user
         message.success("Registered Successfully!");
-
-        // Navigate the user to the login page after successful registration
         navigate("/login");
       } else {
-        // Display an error message to the user based on the response data
         message.error(res.data.message);
       }
     } catch (error) {
       dispatch(hideLoading());
-      // Log any unexpected errors to the console
       console.log(error);
-
-      // Display a generic error message to the user for any unexpected issues
       message.error("Something went wrong. Please try again later.");
     } finally {
       setLoading(false); // Stop loading animation
@@ -57,15 +50,54 @@ const Register = () => {
         <div className="max-w-md w-full bg-white p-8 shadow-lg rounded-lg m-4">
           <h1 className="text-3xl font-semibold mb-6 text-center">Sign Up</h1>
           <Form layout="vertical" onFinish={onFinishHandler}>
-            <Form.Item label="Name" name="name">
-              <Input type="text" className="w-full" required />
+            <Form.Item
+              label="Name"
+              name="name"
+              rules={[{ required: true, message: "Please enter your name" }]}
+            >
+              <Input type="text" className="w-full" />
             </Form.Item>
-            <Form.Item label="Email" name="email">
-              <Input type="email" className="w-full" required />
+
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your email",
+                },
+                {
+                  type: "email",
+                  message: "Please enter a valid email",
+                },
+              ]}
+            >
+              <Input type="email" className="w-full" />
             </Form.Item>
-            <Form.Item label="Password" name="password">
-              <Input type="password" className="w-full" required />
+
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your password",
+                },
+                {
+                  min: 8,
+                  message: "Password must be at least 8 characters",
+                },
+                {
+                  pattern:
+                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                  message:
+                    "Password must contain at least one letter, one number, and one special character",
+                },
+              ]}
+            >
+              <Input type="password" className="w-full" />
             </Form.Item>
+
             <Form.Item>
               <button
                 type="submit"

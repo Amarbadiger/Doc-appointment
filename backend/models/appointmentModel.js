@@ -3,19 +3,23 @@ const mongoose = require("mongoose");
 const appointmentSchema = new mongoose.Schema(
   {
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users", // References the 'users' collection
       required: true,
     },
     doctorId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Doctor", // References the 'users' collection
       required: true,
     },
     doctorInfo: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Doctor", // References the 'users' collection
       required: true,
     },
     userInfo: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users", // References the 'users' collection
       required: true,
     },
     date: {

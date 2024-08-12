@@ -25,6 +25,8 @@ app.use("/api/v1/user", require("./routes/userRoute"));
 app.use("/api/v1/admin", require("./routes/AdminRoute"));
 // Doctor Routes
 app.use("/api/v1/doctor", require("./routes/doctorRoute"));
+//hero page contact form
+app.use("/api/v1/hero", require("./routes/contactFormRoute"));
 
 // port
 const port = process.env.PORT || 8080;

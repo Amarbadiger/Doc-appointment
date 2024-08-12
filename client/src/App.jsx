@@ -17,7 +17,11 @@ import Booking from "./pages/Booking";
 import Appointment from "./pages/Appointment";
 import DoctorAppointments from "./pages/doctor/DoctorAppoinments";
 import Userprofile from "./pages/Userprofile";
-
+import Contact from "./pages/admin/Contact";
+import ResetPassword from "./pages/ResetPassword";
+import Forgotpass from "./pages/Forgotpass";
+import Payment from "./pages/Payment";
+import Video from "./pages/Video";
 function App() {
   const loading = useSelector((state) => state.alerts.loading);
   return (
@@ -44,6 +48,22 @@ function App() {
               }
             />
             <Route
+              path="/user/payment"
+              element={
+                <ProtectedRoute>
+                  <Payment />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/user/video"
+              element={
+                <ProtectedRoute>
+                  <Video />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/doctor/appoinments"
               element={
                 <ProtectedRoute>
@@ -64,6 +84,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Notification />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/contact"
+              element={
+                <ProtectedRoute>
+                  <Contact />
                 </ProtectedRoute>
               }
             />
@@ -112,6 +140,22 @@ function App() {
               element={
                 <PublicRoute>
                   <Register />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/forgot-password"
+              element={
+                <PublicRoute>
+                  <Forgotpass />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/reset-password/:token"
+              element={
+                <PublicRoute>
+                  <ResetPassword />
                 </PublicRoute>
               }
             />

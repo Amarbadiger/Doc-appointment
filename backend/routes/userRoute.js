@@ -10,6 +10,8 @@ const {
   bookAppoinmentController,
   userAppointmentsController,
   bookingAvailabilityController,
+  forgotPassword,
+  resetPassword,
 } = require("../controllers/userCtrl");
 const authMidddleware = require("../middlewares/authMidddleware");
 
@@ -23,6 +25,12 @@ router.post("/login", loginController);
 
 //Register || POST
 router.post("/register", registerController);
+
+// Forgot password
+router.post("/forgot-password", forgotPassword);
+
+// reset password
+router.put("/reset-password/:token", resetPassword);
 
 //Home Page || Auth
 router.post("/getUserData", authMidddleware, authController);
