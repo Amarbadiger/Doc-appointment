@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Layout from "./../components/Layout";
 import moment from "moment";
-import { Table, Button } from "antd";
+import { Table, Button, message } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
   const navigate = useNavigate();
+
   const getAppointments = async () => {
     try {
       const res = await axios.get(
@@ -33,7 +34,16 @@ const Appointments = () => {
   }, []);
 
   const handlePayFees = (appointmentId) => {
-    console.log("Paying fees for appointment:", appointmentId);
+    // Update the status to "paid" in the local state
+    const updatedAppointments = appointments.map((appointment) =>
+      appointment._id === appointmentId
+        ? { ...appointment, status: "paid" }
+        : appointment
+    );
+    setAppointments(updatedAppointments);
+    message.success("Payment status updated successfully");
+
+    // Redirect to payment page
     navigate("/user/payment");
   };
 
@@ -73,10 +83,12 @@ const Appointments = () => {
           <Button
             type="primary"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => handlePayFees(record.doctorId)}
+            onClick={() => handlePayFees(record._id)}
           >
             Pay Fees
           </Button>
+        ) : record.status === "paid" ? (
+          <span className="text-green-500 font-bold">Paid</span>
         ) : null,
     },
   ];

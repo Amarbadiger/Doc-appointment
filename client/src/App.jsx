@@ -22,6 +22,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Forgotpass from "./pages/Forgotpass";
 import Payment from "./pages/Payment";
 import Video from "./pages/Video";
+import Timing from "./pages/Timing";
 function App() {
   const loading = useSelector((state) => state.alerts.loading);
   return (
@@ -60,6 +61,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Video />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/user/timing"
+              element={
+                <ProtectedRoute>
+                  <Timing />
                 </ProtectedRoute>
               }
             />

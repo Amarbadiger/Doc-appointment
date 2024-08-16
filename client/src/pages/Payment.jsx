@@ -33,7 +33,7 @@ const Payment = () => {
 
     setError("");
     message.success("The amount is paid");
-    navigate("/user/video");
+    navigate("/user/timing");
     // Proceed with payment process
   };
 
