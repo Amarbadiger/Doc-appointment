@@ -134,12 +134,12 @@ const Booking = () => {
                     setTime(moment(value).format("HH:mm"));
                   }}
                 />
-                <button
+                {/* <button
                   className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   onClick={handleAvailability}
                 >
                   Check Availability
-                </button>
+                </button> */}
                 <button
                   className="mt-4 bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded"
                   onClick={handleBooking}
